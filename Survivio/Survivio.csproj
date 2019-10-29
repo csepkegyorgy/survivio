@@ -41,7 +41,18 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Game1.cs" />
+    <Compile Include="ContentAccessor.cs" />
+    <Compile Include="Extensions\SpriteBatchExtensions.cs" />
+    <Compile Include="GameConfig.cs" />
+    <Compile Include="GameObjects\Base\ControlledGameObject.cs" />
+    <Compile Include="GameObjects\Base\RectangleD.cs" />
+    <Compile Include="GameObjects\Mechanisms\Controller\Controller.cs" />
+    <Compile Include="GameObjects\Base\GameObject.cs" />
+    <Compile Include="GameObjects\Avatar.cs" />
+    <Compile Include="GameObjects\Mechanisms\Controller\IController.cs" />
+    <Compile Include="GameObjects\Mechanisms\Controller\KeyboardMouseController.cs" />
+    <Compile Include="GameObjects\Mechanisms\Controller\MovementDirection.cs" />
+    <Compile Include="SurvivioMain.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

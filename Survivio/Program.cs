@@ -14,7 +14,7 @@ namespace Survivio
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
+            using (SurvivioMain game = new SurvivioMain())
                 game.Run();
         }
     }
