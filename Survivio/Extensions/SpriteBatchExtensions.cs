@@ -13,7 +13,7 @@
         {
             Rectangle rectangle = gameObject.Body.Rectangle;
             rectangle.Location = new Point(rectangle.Location.X + rectangle.Width / 2, rectangle.Location.Y + rectangle.Height / 2);
-            Vector2 origin = new Vector2(rectangle.Width / 2, rectangle.Height / 2);
+            Vector2 origin = new Vector2(gameObject.Texture.Width / 2, gameObject.Texture.Height / 2);
             float rotationRadian = (-1) * (float)(gameObject.Rotation * (Math.PI / 180));
 
             MainSpriteBatch.Draw(gameObject.Texture, rectangle, null, Color.White, rotationRadian, origin, SpriteEffects.None, 0f);

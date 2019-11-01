@@ -1,7 +1,8 @@
-﻿namespace Survivio.GameObjects.GameWorld
+﻿namespace Survivio.GameObjects.Global
 {
     using Microsoft.Xna.Framework;
     using Survivio.GameObjects.Base;
+    using Survivio.GameObjects.Mechanisms.Collision;
     using System;
     using System.Collections.Generic;
 

@@ -19,6 +19,7 @@
             transparentTexture = Content.Load<Texture2D>("transparenttexture");
             circleFilledBlack = Content.Load<Texture2D>("circle_filled_black");
             circleColoredTest = Content.Load<Texture2D>("circle_colored_test");
+            obstacleCrate1 = Content.Load<Texture2D>("obstacle-crate-01");
         }
 
         private static SpriteFont standardFont;
@@ -35,5 +36,8 @@
 
         private static Texture2D circleColoredTest;
         public static Texture2D CircleColoredTest { get => circleColoredTest; }
+
+        private static Texture2D obstacleCrate1;
+        public static Texture2D ObstacleCrate1 { get => obstacleCrate1; }
     }
 }

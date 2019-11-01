@@ -6,7 +6,7 @@
     using Survivio.Extensions;
     using Survivio.GameObjects;
     using Survivio.GameObjects.Base;
-    using Survivio.GameObjects.GameWorld;
+    using Survivio.GameObjects.Global;
     using Survivio.GameObjects.Mechanisms.Controller;
 
     public class SurvivioMain : Game
@@ -15,6 +15,7 @@
         SpriteBatch spriteBatch;
 
         Avatar<KeyboardMouseController> player;
+        Obstacle box;
         Point mousePosition;
         GameWorld gameWorld;
 
@@ -31,8 +32,6 @@
         {
             this.IsMouseVisible = true;
             base.Initialize();
-
-            gameWorld = new GameWorld(1900, 1100);
         }
         
         protected override void LoadContent()
@@ -43,9 +42,9 @@
             ContentAccessor contentAccessor = new ContentAccessor(Content);
             contentAccessor.LoadContent();
 
-            player = new Avatar<KeyboardMouseController>(new KeyboardMouseController());
-            player.Body = new RectangleD(200, 200, 50, 50);
-            player.Texture = ContentAccessor.CircleColoredTest;
+            gameWorld = new GameWorld(1900, 1100);
+            player = new Avatar<KeyboardMouseController>(new KeyboardMouseController(), gameWorld, ContentAccessor.CircleColoredTest, new Rectangle(200, 200, 50, 50));
+            box = new Obstacle(gameWorld, ContentAccessor.ObstacleCrate1, new Rectangle(50, 50, 100, 100));
         }
 
         protected override void UnloadContent()
@@ -81,10 +80,12 @@
                 }
 
                 player.DrawWithDevBorder();
-                SpriteBatchExtensions.DrawHollowRectangle(mousePosition, 3, 3, 3, Color.Red);
+                box.DrawWithDevBorder();
 
                 spriteBatch.DrawString(ContentAccessor.StandardFont, player.Rotation.ToString(), new Vector2(30, 30), Color.Black);
+                spriteBatch.DrawString(ContentAccessor.StandardFont, $"MouseState: {mousePosition.X} {mousePosition.Y}", new Vector2(130, 30), Color.Black);
 
+                SpriteBatchExtensions.DrawHollowRectangle(mousePosition, 3, 3, 3, Color.Red);
 
                 spriteBatch.End();
                 base.Draw(gameTime);

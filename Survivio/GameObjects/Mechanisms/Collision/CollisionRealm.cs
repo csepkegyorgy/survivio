@@ -1,6 +1,7 @@
-﻿namespace Survivio.GameObjects.Base
+﻿namespace Survivio.GameObjects.Mechanisms.Collision
 {
     using Microsoft.Xna.Framework;
+    using Survivio.GameObjects.Base;
     using System.Collections.Generic;
     using System.Linq;
 

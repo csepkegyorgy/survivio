@@ -78,28 +78,28 @@
             switch (movementDirection)
             {
                 case MovementDirection.Right:
-                    ControlledObject.Body.Offset(units, 0);
+                    ControlledObject.Move(units, 0);
                     break;
                 case MovementDirection.UpRight:
-                    ControlledObject.Body.Offset(units, units * (-1));
+                    ControlledObject.Move(units, units * (-1));
                     break;
                 case MovementDirection.Up:
-                    ControlledObject.Body.Offset(0, units * (-1));
+                    ControlledObject.Move(0, units * (-1));
                     break;
                 case MovementDirection.UpLeft:
-                    ControlledObject.Body.Offset(units * (-1), units * (-1));
+                    ControlledObject.Move(units * (-1), units * (-1));
                     break;
                 case MovementDirection.Left:
-                    ControlledObject.Body.Offset(units * (-1), 0);
+                    ControlledObject.Move(units * (-1), 0);
                     break;
                 case MovementDirection.DownLeft:
-                    ControlledObject.Body.Offset(units * (-1), units);
+                    ControlledObject.Move(units * (-1), units);
                     break;
                 case MovementDirection.Down:
-                    ControlledObject.Body.Offset(0, units);
+                    ControlledObject.Move(0, units);
                     break;
                 case MovementDirection.DownRight:
-                    ControlledObject.Body.Offset(units, units);
+                    ControlledObject.Move(units, units);
                     break;
                 default:
                     break;
