@@ -6,6 +6,7 @@
     using Survivio.Extensions;
     using Survivio.GameObjects;
     using Survivio.GameObjects.Base;
+    using Survivio.GameObjects.GameWorld;
     using Survivio.GameObjects.Mechanisms.Controller;
 
     public class SurvivioMain : Game
@@ -14,6 +15,8 @@
         SpriteBatch spriteBatch;
 
         Avatar<KeyboardMouseController> player;
+        Point mousePosition;
+        GameWorld gameWorld;
 
         double nextDraw = 0;
         double nextUpdate = 0;
@@ -28,6 +31,8 @@
         {
             this.IsMouseVisible = true;
             base.Initialize();
+
+            gameWorld = new GameWorld(1900, 1100);
         }
         
         protected override void LoadContent()
@@ -55,6 +60,7 @@
                     Exit();
 
                 player.Controller.HandleState(gameTime, Keyboard.GetState(), Mouse.GetState());
+                mousePosition = Mouse.GetState().Position;
 
                 base.Update(gameTime);
 
@@ -69,10 +75,16 @@
                 GraphicsDevice.Clear(Color.CornflowerBlue);
                 spriteBatch.Begin();
 
-                player.DrawWithDevBorder();
+                foreach (var item in gameWorld.CollisionRealms)
+                {
+                    SpriteBatchExtensions.DrawHollowRectangle(item.Area.Location, item.Area.Width, item.Area.Height, 2, Color.Gray);
+                }
 
+                player.DrawWithDevBorder();
+                SpriteBatchExtensions.DrawHollowRectangle(mousePosition, 3, 3, 3, Color.Red);
 
                 spriteBatch.DrawString(ContentAccessor.StandardFont, player.Rotation.ToString(), new Vector2(30, 30), Color.Black);
+
 
                 spriteBatch.End();
                 base.Draw(gameTime);
