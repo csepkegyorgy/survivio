@@ -2,6 +2,7 @@
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
+    using Survivio.Extensions;
     using System;
 
     public class KeyboardMouseController : Controller
@@ -108,46 +109,56 @@
 
         public void HandleState(GameTime gameTime, KeyboardState keyboardState, MouseState mouseState)
         {
-            FaceTowardsPoint(mouseState.Position.ToVector2());
+            FaceTowardsPoint(mouseState.Position.ToVector2() - SpriteBatchExtensions.Camera.GetCameraShift());
 
+            double units = ControlledObject.Speed / GameConfig.FPS;
+            if (keyboardState.IsKeyDown(Keys.W))
+                Move(MovementDirection.Up, units);
+            if (keyboardState.IsKeyDown(Keys.A))
+                Move(MovementDirection.Left, units);
+            if (keyboardState.IsKeyDown(Keys.S))
+                Move(MovementDirection.Down, units);
             if (keyboardState.IsKeyDown(Keys.D))
-            {
-                if (keyboardState.IsKeyDown(Keys.W))
-                {
-                    Move(MovementDirection.UpRight, ControlledObject.Speed / GameConfig.FPS);
-                }
-                else if (keyboardState.IsKeyDown(Keys.S))
-                {
-                    Move(MovementDirection.DownRight, ControlledObject.Speed / GameConfig.FPS);
-                }
-                else
-                {
-                    Move(MovementDirection.Right, ControlledObject.Speed / GameConfig.FPS);
-                }
-            }
-            else if (keyboardState.IsKeyDown(Keys.A))
-            {
-                if (keyboardState.IsKeyDown(Keys.W))
-                {
-                    Move(MovementDirection.UpLeft, ControlledObject.Speed / GameConfig.FPS);
-                }
-                else if (keyboardState.IsKeyDown(Keys.S))
-                {
-                    Move(MovementDirection.DownLeft, ControlledObject.Speed / GameConfig.FPS);
-                }
-                else
-                {
-                    Move(MovementDirection.Left, ControlledObject.Speed / GameConfig.FPS);
-                }
-            }
-            else if (keyboardState.IsKeyDown(Keys.W))
-            {
-                Move(MovementDirection.Up, ControlledObject.Speed / GameConfig.FPS);
-            }
-            else if (keyboardState.IsKeyDown(Keys.S))
-            {
-                Move(MovementDirection.Down, ControlledObject.Speed / GameConfig.FPS);
-            }
+                Move(MovementDirection.Right, units);
+
+            //if (keyboardState.IsKeyDown(Keys.D))
+            //{
+            //    if (keyboardState.IsKeyDown(Keys.W))
+            //    {
+            //        Move(MovementDirection.UpRight, ControlledObject.Speed / GameConfig.FPS);
+            //    }
+            //    else if (keyboardState.IsKeyDown(Keys.S))
+            //    {
+            //        Move(MovementDirection.DownRight, ControlledObject.Speed / GameConfig.FPS);
+            //    }
+            //    else
+            //    {
+            //        Move(MovementDirection.Right, ControlledObject.Speed / GameConfig.FPS);
+            //    }
+            //}
+            //else if (keyboardState.IsKeyDown(Keys.A))
+            //{
+            //    if (keyboardState.IsKeyDown(Keys.W))
+            //    {
+            //        Move(MovementDirection.UpLeft, ControlledObject.Speed / GameConfig.FPS);
+            //    }
+            //    else if (keyboardState.IsKeyDown(Keys.S))
+            //    {
+            //        Move(MovementDirection.DownLeft, ControlledObject.Speed / GameConfig.FPS);
+            //    }
+            //    else
+            //    {
+            //        Move(MovementDirection.Left, ControlledObject.Speed / GameConfig.FPS);
+            //    }
+            //}
+            //else if (keyboardState.IsKeyDown(Keys.W))
+            //{
+            //    Move(MovementDirection.Up, ControlledObject.Speed / GameConfig.FPS);
+            //}
+            //else if (keyboardState.IsKeyDown(Keys.S))
+            //{
+            //    Move(MovementDirection.Down, ControlledObject.Speed / GameConfig.FPS);
+            //}
         }
     }
 }

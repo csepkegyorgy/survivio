@@ -10,10 +10,12 @@
 
     public class Avatar<TController> : ControlledGameObject<TController>, IRigid where TController : IController
     {
-        public Avatar(TController controller, GameWorld gameWorld, Texture2D texture, Rectangle body)
-            : base(controller, gameWorld, texture, body)
+        public Avatar(Texture2D texture, Rectangle body)
+            : base(texture, body)
         {
             this.Speed = GameConfig.StandardAvatarSpeed;
         }
+
+        public Rectangle RigidBody => this.Body.Rectangle;
     }
 }

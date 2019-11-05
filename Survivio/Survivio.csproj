@@ -44,10 +44,11 @@
     <Compile Include="ContentAccessor.cs" />
     <Compile Include="Extensions\SpriteBatchExtensions.cs" />
     <Compile Include="GameConfig.cs" />
+    <Compile Include="GameObjects\Mechanisms\Camera\Camera.cs" />
+    <Compile Include="GameObjects\Mechanisms\Camera\CameraMode.cs" />
     <Compile Include="GameObjects\Mechanisms\Collision\CollisionRealm.cs" />
     <Compile Include="GameObjects\Base\ControlledGameObject.cs" />
     <Compile Include="GameObjects\Base\RectangleD.cs" />
-    <Compile Include="GameObjects\Mechanisms\Collision\CollisionResult.cs" />
     <Compile Include="GameObjects\Mechanisms\Collision\IRigid.cs" />
     <Compile Include="GameObjects\Mechanisms\Controller\Controller.cs" />
     <Compile Include="GameObjects\Base\GameObject.cs" />

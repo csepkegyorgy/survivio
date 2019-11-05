@@ -7,14 +7,30 @@
 
     public class CollisionRealm
     {
-        public List<GameObject> GameObjects { get; }
+        public List<GameObject> GameObjectsPrivate;
+        public List<GameObject> GameObjects => GameObjectsPrivate.ToList();
 
         public Rectangle Area { get; }
 
-        public CollisionRealm(int x, int y)
+        public int CollisionRealmId { get; private set; }
+
+        public CollisionRealm(int x, int y, int id)
         {
-            this.GameObjects = new List<GameObject>();
+            this.CollisionRealmId = id;
+            this.GameObjectsPrivate = new List<GameObject>();
             this.Area = new Rectangle(x, y, GameConfig.CollisionRealmSize, GameConfig.CollisionRealmSize);
+        }
+
+        public void RemoveGameObject(GameObject obj)
+        {
+            if (this.GameObjectsPrivate.Contains(obj))
+                this.GameObjectsPrivate.RemoveAll(x => x == obj);
+        }
+
+        public void AddGameObject(GameObject obj)
+        {
+            if (!this.GameObjectsPrivate.Contains(obj))
+                this.GameObjectsPrivate.Add(obj);
         }
 
         public List<GameObject> CheckCollision(GameObject gameObject)

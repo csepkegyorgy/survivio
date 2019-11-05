@@ -9,8 +9,10 @@
     public class Obstacle : GameObject, IRigid
     {
         public Obstacle(GameWorld gameWorld, Texture2D texture, Rectangle body)
-            : base(gameWorld, texture, body)
+            : base(texture, body)
         {
         }
+
+        public Rectangle RigidBody => this.Body.Rectangle;
     }
 }

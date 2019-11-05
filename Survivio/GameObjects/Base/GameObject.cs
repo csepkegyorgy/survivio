@@ -17,13 +17,14 @@
 
         public int EntityId { get; }
 
-        public List<CollisionRealm> CollisionRealms { get; }
+        private List<CollisionRealm> CollisionRealmsPrivate { get; }
+        public List<CollisionRealm> CollisionRealms => CollisionRealmsPrivate.ToList();
 
         public Texture2D Texture { get; }
 
         public RectangleD Body { get; }
 
-        public GameWorld GameWorld { get; }
+        public GameWorld GameWorld { get; set; }
 
         public double Speed { get; set; }
 
@@ -47,32 +48,31 @@
             NextId = 0;
         }
 
-        public GameObject(GameWorld gameWorld, Texture2D texture, Rectangle body)
+        public GameObject(Texture2D texture, Rectangle body)
         {
             this.EntityId = NextId;
             NextId++;
-
-            this.GameWorld = gameWorld;
+            
             this.Texture = texture;
             this.Body = new RectangleD(body.X, body.Y, body.Width, body.Height);
 
-            CollisionRealms = new List<CollisionRealm>();
-            UpdateCollisionRealms();
+            CollisionRealmsPrivate = new List<CollisionRealm>();
         }
 
-        private void UpdateCollisionRealms()
+        public void UpdateCollisionRealms()
         {
             Rectangle body = this.Body.Rectangle;
-            this.CollisionRealms.Clear();
+            foreach (var item in this.CollisionRealmsPrivate)
+            {
+                item.RemoveGameObject(this);
+            }
+            this.CollisionRealmsPrivate.Clear();
             foreach (CollisionRealm collisionRealm in GameWorld.CollisionRealms)
             {
                 if (body.Intersects(collisionRealm.Area))
                 {
-                    this.CollisionRealms.Add(collisionRealm);
-                    if (!collisionRealm.GameObjects.Contains(this))
-                    {
-                        collisionRealm.GameObjects.Add(this);
-                    }
+                    this.CollisionRealmsPrivate.Add(collisionRealm);
+                    collisionRealm.AddGameObject(this);
                 }
             }
         }
@@ -115,7 +115,7 @@
             // TODO
 
             // Handle collision
-            List<GameObject> gameObjects = CollisionRealms
+            List<GameObject> gameObjects = CollisionRealmsPrivate
                 .SelectMany(g => g.GameObjects)
                 .Where(g => g.EntityId != this.EntityId)
                 .GroupBy(g => g.EntityId)
@@ -123,6 +123,20 @@
                 .ToList();
 
             this.Body.Offset(x, y);
+            foreach (var item in gameObjects)
+            {
+                if (this.CollidesWith(item.Body.Rectangle))
+                {
+                    if (this.Collide(item))
+                    {
+                        cancelMovement = true;
+                    }
+                    if (item.Collide(this))
+                    {
+                        cancelMovement = true;
+                    }
+                }
+            }
             foreach (var item in gameObjects)
             {
                 if (this.CollidesWith(item.Body.Rectangle))

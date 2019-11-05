@@ -2,18 +2,20 @@
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
-    using Survivio.GameObjects.Global;
     using Survivio.GameObjects.Mechanisms.Controller;
+    using System;
 
     public abstract class ControlledGameObject<TController> : GameObject where TController : IController
     {
         public TController Controller { get; }
 
-        public ControlledGameObject(TController controller, GameWorld gameWorld, Texture2D texture, Rectangle body)
-            : base(gameWorld, texture, body)
+        public ControlledGameObject(Texture2D texture, Rectangle body)
+            : base(texture, body)
         {
-            this.Controller = controller;
-            controller.BindObject(this);
+            this.Controller = (TController)Activator.CreateInstance(typeof(TController));
+            this.Controller.BindObject(this);
+            //this.Controller = controller;
+            //controller.BindObject(this);
         }
     }
 }
