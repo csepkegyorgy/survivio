@@ -4,7 +4,6 @@
     using Microsoft.Xna.Framework.Graphics;
     using Survivio.GameObjects.Global;
     using Survivio.GameObjects.Mechanisms.Collision;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -35,6 +34,8 @@
         // 270  : object facing down
         public int Rotation { get; set; }
 
+        public DrawPriority DrawPriority { get; set; }
+
         public virtual List<Rectangle> CollisionRectangles
         {
             get
@@ -48,15 +49,20 @@
             NextId = 0;
         }
 
-        public GameObject(Texture2D texture, Rectangle body)
+        private GameObject()
         {
             this.EntityId = NextId;
             NextId++;
-            
+            CollisionRealmsPrivate = new List<CollisionRealm>();
+            this.DrawPriority = DrawPriority.Low;
+        }
+
+        public GameObject(Texture2D texture, Rectangle body)
+            : this()
+        {
             this.Texture = texture;
             this.Body = new RectangleD(body.X, body.Y, body.Width, body.Height);
 
-            CollisionRealmsPrivate = new List<CollisionRealm>();
         }
 
         public void UpdateCollisionRealms()
@@ -100,12 +106,17 @@
 
         public virtual bool Collide(GameObject gameObject)
         {
-            if (gameObject is IRigid)
+            if (gameObject is IRigid && this is IRigid)
             {
                 return true;
             }
 
             return false;
+        }
+
+        public void Move(Point point)
+        {
+            this.Move(point.X, point.Y);
         }
 
         public void Move(double x, double y)
@@ -160,7 +171,15 @@
             else
             {
                 UpdateCollisionRealms();
+                SuccessfulMovementPostActions();
             }
+        }
+
+        public virtual void SuccessfulMovementPostActions() { }
+
+        public void Remove()
+        {
+            this.GameWorld.GameObjects.Remove(this);
         }
     }
 }

@@ -7,6 +7,7 @@
     using Survivio.GameObjects;
     using Survivio.GameObjects.Base;
     using Survivio.GameObjects.Global;
+    using Survivio.GameObjects.Item.Ammunitions;
     using Survivio.GameObjects.Mechanisms.Camera;
     using Survivio.GameObjects.Mechanisms.Collision;
     using Survivio.GameObjects.Mechanisms.Controller;
@@ -19,6 +20,8 @@
 
         Avatar<KeyboardMouseController> player;
         Obstacle box;
+        Blue762Ammunition blueAmmo;
+
         Point mousePosition;
         Point mouseWorldPosition;
         GameWorld gameWorld;
@@ -65,6 +68,12 @@
                     ContentAccessor.ObstacleCrate1,
                     new Rectangle(50, 50, 100, 100)));
 
+            gameWorld.AddNewGameObject(blueAmmo =
+                new Blue762Ammunition(
+                    60
+                    ));
+            blueAmmo.Move(500, 500);
+
             camera = new Camera(player);
             SpriteBatchExtensions.Camera = camera;
         }
@@ -96,7 +105,7 @@
         {
             if (gameTime.TotalGameTime.TotalMilliseconds + GameConfig.Delta >= nextDraw)
             {
-                GraphicsDevice.Clear(Color.CornflowerBlue);
+                GraphicsDevice.Clear(Color.LawnGreen);
                 spriteBatch.Begin();
 
 
@@ -107,10 +116,12 @@
                     item.CollisionRealmId.ToString().DrawString(new Vector2(item.Area.Center.X, item.Area.Center.Y), new Color(0, 0, 0, 64), 3);
                 }
 
-                foreach (GameObject item in gameWorld.GameObjects)
+                foreach (GameObject item in gameWorld.GameObjects.Where(x => x.DrawPriority != DrawPriority.Invisible).OrderBy(x => x.DrawPriority))
                 {
                     item.Draw(true);
                 }
+
+
 
                 player.Rotation.ToString().DrawStringOnScreen(new Vector2(30, 30));
                 ($"MouseState: {mousePosition.X} {mousePosition.Y}").DrawStringOnScreen(new Vector2(130, 30));

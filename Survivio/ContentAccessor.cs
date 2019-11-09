@@ -20,6 +20,10 @@
             circleFilledBlack = Content.Load<Texture2D>("circle_filled_black");
             circleColoredTest = Content.Load<Texture2D>("circle_colored_test");
             obstacleCrate1 = Content.Load<Texture2D>("obstacle-crate-01");
+            ammo762mm = Content.Load<Texture2D>("ammo-762mm");
+            lootCircleOuter01 = Content.Load<Texture2D>("loot-circle-outer-01");
+            weaponIconOT38 = Content.Load<Texture2D>("loot-weapon-ot38");
+            gunShort = Content.Load<Texture2D>("gun-short");
         }
 
         private static SpriteFont standardFont;
@@ -39,5 +43,17 @@
 
         private static Texture2D obstacleCrate1;
         public static Texture2D ObstacleCrate1 { get => obstacleCrate1; }
+
+        private static Texture2D ammo762mm;
+        public static Texture2D Ammo762mm { get => ammo762mm; }
+
+        private static Texture2D lootCircleOuter01;
+        public static Texture2D LootCircleOuter01 { get => lootCircleOuter01; }
+
+        private static Texture2D gunShort;
+        public static Texture2D GunShort { get => gunShort; }
+
+        private static Texture2D weaponIconOT38;
+        public static Texture2D WeaponIconOT38 { get => weaponIconOT38; }
     }
 }

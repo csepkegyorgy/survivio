@@ -10,7 +10,6 @@
         public const double FPS = 60;
         public const double Delta = 1000 / FPS;
 
-        public const double StandardAvatarSpeed = 130; // per seconds
         public const int CollisionRealmSize = 350;
 
         public const int ScreenWidth = 1920;
@@ -25,9 +24,35 @@
                 public const int StandardBodyWidth = 50;
                 public const int StandardBodyHeight = 50;
 
+                public const int StandardAvatarSpeed = 130; // per seconds
+
                 public static Rectangle GetStandardAvatarBody(int x = 0, int y = 0)
                 {
                     return new Rectangle(x, y, AvatarStandards.StandardBodyWidth, AvatarStandards.StandardBodyHeight);
+                }
+            }
+
+            public static class WeaponStandards
+            {
+                public const int StandardShortGunWidth = 10;
+                public const int StandardShortGunHeight = 20;
+
+                public static Rectangle GetStandardShortGunBody(int x = 0, int y = 0)
+                {
+                    return new Rectangle(x, y, WeaponStandards.StandardShortGunWidth, WeaponStandards.StandardShortGunHeight);
+                }
+            }
+
+            public static class AmmunitionStandards
+            {
+                public const int StandardAmmunitionWidth = 40;
+                public const int StandardAmmunitionHeight = 40;
+
+                public const int StandardMaxAmmunitionAmountInOneLootInstance = 60;
+
+                public static Rectangle GetStandardAmmunitionBody(int x = 0, int y = 0)
+                {
+                    return new Rectangle(x, y, AmmunitionStandards.StandardAmmunitionWidth, AmmunitionStandards.StandardAmmunitionHeight);
                 }
             }
 

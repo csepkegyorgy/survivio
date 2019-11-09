@@ -120,45 +120,6 @@
                 Move(MovementDirection.Down, units);
             if (keyboardState.IsKeyDown(Keys.D))
                 Move(MovementDirection.Right, units);
-
-            //if (keyboardState.IsKeyDown(Keys.D))
-            //{
-            //    if (keyboardState.IsKeyDown(Keys.W))
-            //    {
-            //        Move(MovementDirection.UpRight, ControlledObject.Speed / GameConfig.FPS);
-            //    }
-            //    else if (keyboardState.IsKeyDown(Keys.S))
-            //    {
-            //        Move(MovementDirection.DownRight, ControlledObject.Speed / GameConfig.FPS);
-            //    }
-            //    else
-            //    {
-            //        Move(MovementDirection.Right, ControlledObject.Speed / GameConfig.FPS);
-            //    }
-            //}
-            //else if (keyboardState.IsKeyDown(Keys.A))
-            //{
-            //    if (keyboardState.IsKeyDown(Keys.W))
-            //    {
-            //        Move(MovementDirection.UpLeft, ControlledObject.Speed / GameConfig.FPS);
-            //    }
-            //    else if (keyboardState.IsKeyDown(Keys.S))
-            //    {
-            //        Move(MovementDirection.DownLeft, ControlledObject.Speed / GameConfig.FPS);
-            //    }
-            //    else
-            //    {
-            //        Move(MovementDirection.Left, ControlledObject.Speed / GameConfig.FPS);
-            //    }
-            //}
-            //else if (keyboardState.IsKeyDown(Keys.W))
-            //{
-            //    Move(MovementDirection.Up, ControlledObject.Speed / GameConfig.FPS);
-            //}
-            //else if (keyboardState.IsKeyDown(Keys.S))
-            //{
-            //    Move(MovementDirection.Down, ControlledObject.Speed / GameConfig.FPS);
-            //}
         }
     }
 }
