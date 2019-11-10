@@ -18,7 +18,7 @@
             this.Item = item;
         }
 
-        public void Interact(Avatar<IController> avatar)
+        public void Interact(Avatar avatar)
         {
             if (Item is GunWeaponItem)
             {
@@ -105,12 +105,12 @@
 
         public override bool Collide(GameObject gameObject)
         {
-            if (gameObject is Avatar<IController>)
+            if (gameObject is Avatar)
             {
-                var avatar = gameObject as Avatar<IController>;
-                if (!avatar.InteractableLoots.Contains(this))
+                var avatar = gameObject as Avatar;
+                if (!avatar.InteractableGameObjects.Contains(this))
                 {
-                    avatar.InteractableLoots.Add(this);
+                    avatar.AddInteractableGameObject(this);
                 }
             }
 

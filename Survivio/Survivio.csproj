@@ -50,7 +50,6 @@
     <Compile Include="GameObjects\Item\Base\GunWeaponItem.cs" />
     <Compile Include="GameObjects\Item\Base\MeleeWeaponItem.cs" />
     <Compile Include="GameObjects\Item\Base\ThrowableWeaponItem.cs" />
-    <Compile Include="GameObjects\Item\Base\WeaponItem.cs" />
     <Compile Include="GameObjects\Item\Base\AmmunitionItem.cs" />
     <Compile Include="GameObjects\Item\Guns\OT38Gun.cs" />
     <Compile Include="GameObjects\Item\Inventory\AmmunitionType.cs" />
@@ -74,8 +73,9 @@
     <Compile Include="GameObjects\Mechanisms\Controller\Controller.cs" />
     <Compile Include="GameObjects\Base\GameObject.cs" />
     <Compile Include="GameObjects\Avatar.cs" />
-    <Compile Include="GameObjects\Mechanisms\Controller\IController.cs" />
+    <Compile Include="GameObjects\Mechanisms\Controller\IState.cs" />
     <Compile Include="GameObjects\Mechanisms\Controller\KeyboardMouseController.cs" />
+    <Compile Include="GameObjects\Mechanisms\Controller\KeyboardMouseState.cs" />
     <Compile Include="GameObjects\Mechanisms\Controller\MovementDirection.cs" />
     <Compile Include="GameObjects\Global\GameWorld.cs" />
     <Compile Include="GameObjects\Obstacle.cs" />

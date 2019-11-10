@@ -6,7 +6,7 @@
 
     public class AvatarInventory
     {
-        public Avatar<IController> Avatar { get; private set; }
+        public Avatar Avatar { get; private set; }
 
         public BackpackType BackpackLevel { get; private set; }
 
@@ -25,7 +25,7 @@
         public ThrowableWeaponItem ThrowableHandSlot { get; private set; }
         public int SelectedHandSlot { get; private set; }
 
-        public AvatarInventory(Avatar<IController> avatar)
+        public AvatarInventory(Avatar avatar)
         {
             this.Avatar = avatar;
 

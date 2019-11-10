@@ -126,6 +126,8 @@
             // TODO
 
             // Handle collision
+            MovementPreActions();
+
             List<GameObject> gameObjects = CollisionRealmsPrivate
                 .SelectMany(g => g.GameObjects)
                 .Where(g => g.EntityId != this.EntityId)
@@ -171,15 +173,15 @@
             else
             {
                 UpdateCollisionRealms();
-                SuccessfulMovementPostActions();
             }
         }
 
-        public virtual void SuccessfulMovementPostActions() { }
+        public virtual void MovementPreActions() { }
 
         public void Remove()
         {
-            this.GameWorld.GameObjects.Remove(this);
+            this.CollisionRealmsPrivate.Clear();
+            this.GameWorld.RemoveGameObject(this);
         }
     }
 }

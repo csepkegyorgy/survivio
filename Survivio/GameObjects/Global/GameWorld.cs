@@ -2,6 +2,7 @@
 {
     using Microsoft.Xna.Framework;
     using Survivio.GameObjects.Base;
+    using Survivio.GameObjects.Item;
     using Survivio.GameObjects.Mechanisms.Collision;
     using Survivio.GameObjects.Mechanisms.Controller;
     using System;
@@ -56,7 +57,25 @@
             gameObject.GameWorld = this;
             gameObject.UpdateCollisionRealms();
             this.GameObjectsPrivate.Add(gameObject);
-            
+
+            if (gameObject is Loot && (gameObject as Loot).Item != null)
+            {
+                (gameObject as Loot).Item.GameWorld = this;
+                this.GameObjectsPrivate.Add((gameObject as Loot).Item);
+            }
+        }
+
+        public void RemoveGameObject(GameObject gameObject)
+        {
+            gameObject.GameWorld = null;
+            if (GameObjectsPrivate.Contains(gameObject))
+            {
+                this.GameObjectsPrivate.RemoveAll(x => x.EntityId == gameObject.EntityId);
+            }
+            foreach (var item in CollisionRealmsPrivate)
+            {
+                item.RemoveGameObject(gameObject);
+            }
         }
     }
 }

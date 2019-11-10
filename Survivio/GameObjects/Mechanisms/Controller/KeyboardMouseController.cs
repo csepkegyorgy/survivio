@@ -3,7 +3,9 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
     using Survivio.Extensions;
+    using Survivio.GameObjects.Item;
     using System;
+    using System.Linq;
 
     public class KeyboardMouseController : Controller
     {
@@ -107,19 +109,30 @@
             }
         }
 
-        public void HandleState(GameTime gameTime, KeyboardState keyboardState, MouseState mouseState)
+        public void HandleState(KeyboardMouseState state)
         {
-            FaceTowardsPoint(mouseState.Position.ToVector2() - SpriteBatchExtensions.Camera.GetCameraShift());
+            FaceTowardsPoint(state.MouseState.Position.ToVector2() - SpriteBatchExtensions.Camera.GetCameraShift());
 
             double units = ControlledObject.Speed / GameConfig.FPS;
-            if (keyboardState.IsKeyDown(Keys.W))
+            if (state.KeyboardState.IsKeyDown(Keys.W))
                 Move(MovementDirection.Up, units);
-            if (keyboardState.IsKeyDown(Keys.A))
+            if (state.KeyboardState.IsKeyDown(Keys.A))
                 Move(MovementDirection.Left, units);
-            if (keyboardState.IsKeyDown(Keys.S))
+            if (state.KeyboardState.IsKeyDown(Keys.S))
                 Move(MovementDirection.Down, units);
-            if (keyboardState.IsKeyDown(Keys.D))
+            if (state.KeyboardState.IsKeyDown(Keys.D))
                 Move(MovementDirection.Right, units);
+
+            if (state.KeyboardState.IsKeyDown(Keys.Space))
+            {
+                var avatar = ControlledObject as Avatar;
+
+                var interactableObject = avatar.InteractableGameObjects.OrderBy(x => (avatar.Body.Center.ToVector2() - x.Body.Center.ToVector2()).Length()).FirstOrDefault();
+                if (interactableObject != null)
+                {
+                    (interactableObject as Loot).Interact(avatar);
+                }
+            }
         }
     }
 }

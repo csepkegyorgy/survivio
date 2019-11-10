@@ -21,10 +21,10 @@
             this.Area = new Rectangle(x, y, GameConfig.CollisionRealmSize, GameConfig.CollisionRealmSize);
         }
 
-        public void RemoveGameObject(GameObject obj)
+        public void RemoveGameObject(GameObject gameObject)
         {
-            if (this.GameObjectsPrivate.Contains(obj))
-                this.GameObjectsPrivate.RemoveAll(x => x == obj);
+            if (this.GameObjectsPrivate.Contains(gameObject))
+                this.GameObjectsPrivate.RemoveAll(x => x.EntityId == gameObject.EntityId);
         }
 
         public void AddGameObject(GameObject obj)

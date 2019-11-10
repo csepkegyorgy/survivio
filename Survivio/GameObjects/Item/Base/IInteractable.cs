@@ -5,6 +5,6 @@
 
     public interface IInteractable
     {
-        void Interact(Avatar<IController> gameObject);
+        void Interact(Avatar gameObject);
     }
 }

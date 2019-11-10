@@ -7,6 +7,7 @@
     using Survivio.GameObjects;
     using Survivio.GameObjects.Base;
     using Survivio.GameObjects.Global;
+    using Survivio.GameObjects.Item;
     using Survivio.GameObjects.Item.Ammunitions;
     using Survivio.GameObjects.Mechanisms.Camera;
     using Survivio.GameObjects.Mechanisms.Collision;
@@ -18,9 +19,9 @@
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Avatar<KeyboardMouseController> player;
+        Avatar player;
         Obstacle box;
-        Blue762Ammunition blueAmmo;
+        Loot blueAmmoLoot;
 
         Point mousePosition;
         Point mouseWorldPosition;
@@ -57,9 +58,10 @@
             gameWorld = new GameWorld(1900, 1100);
 
             gameWorld.AddNewGameObject(player = 
-                new Avatar<KeyboardMouseController>(
+                new Avatar(
                     ContentAccessor.CircleColoredTest,
-                    GameConfig.GameObjectStandards.AvatarStandards.GetStandardAvatarBody(200, 200)
+                    GameConfig.GameObjectStandards.AvatarStandards.GetStandardAvatarBody(200, 200),
+                    new KeyboardMouseController()
                     ));
 
             gameWorld.AddNewGameObject(box =
@@ -68,11 +70,11 @@
                     ContentAccessor.ObstacleCrate1,
                     new Rectangle(50, 50, 100, 100)));
 
-            gameWorld.AddNewGameObject(blueAmmo =
+            gameWorld.AddNewGameObject(blueAmmoLoot = new Loot(
                 new Blue762Ammunition(
                     60
-                    ));
-            blueAmmo.Move(500, 500);
+                    )));
+            blueAmmoLoot.Move(500, 500);
 
             camera = new Camera(player);
             SpriteBatchExtensions.Camera = camera;
@@ -89,7 +91,7 @@
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                     Exit();
 
-                player.Controller.HandleState(gameTime, Keyboard.GetState(), Mouse.GetState());
+                (player.Controller as KeyboardMouseController).HandleState(new KeyboardMouseState(gameTime, Keyboard.GetState(), Mouse.GetState()));
                 mousePosition = Mouse.GetState().Position;
                 mouseWorldPosition = mousePosition - SpriteBatchExtensions.Camera.GetCameraShift().ToPoint();
 
@@ -121,6 +123,11 @@
                     item.Draw(true);
                 }
 
+                foreach (var item in player.InteractableGameObjects)
+                {
+                    item.EntityId.ToString().DrawStringOnScreen(new Vector2(30, 400));
+                }
+
 
 
                 player.Rotation.ToString().DrawStringOnScreen(new Vector2(30, 30));
@@ -128,7 +135,8 @@
                 ($"MouseState (world): {mouseWorldPosition.X} {mouseWorldPosition.Y}").DrawStringOnScreen(new Vector2(130, 70));
                 ($"Player collision realms: {string.Join(" ", player.CollisionRealms.Select(x => x.CollisionRealmId.ToString()).ToArray())}").DrawStringOnScreen(new Vector2(400, 30), new Color(0, 0, 0, 128));
                 ($"Box collision realms: {string.Join(" ", box.CollisionRealms.Select(x => x.CollisionRealmId.ToString()).ToArray())}").DrawStringOnScreen(new Vector2(400, 130), new Color(500, 0, 0, 128));
-                
+                ($"Player blue ammo: {player.Inventory.AmmunitionInventoryBlue.Amount}").DrawStringOnScreen(new Vector2(400, 500), new Color(500, 0, 0, 128));
+
                 SpriteBatchExtensions.DrawHollowRectangleUnshifted(mousePosition, 3, 3, 3, Color.Red);
 
                 SpriteBatchExtensions.DrawHollowRectangle(gameWorld.Area.Location, gameWorld.Area.Width, gameWorld.Area.Height, 5, Color.Black);

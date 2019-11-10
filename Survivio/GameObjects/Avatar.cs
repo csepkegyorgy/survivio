@@ -8,35 +8,49 @@
     using Survivio.GameObjects.Mechanisms.Collision;
     using Survivio.GameObjects.Mechanisms.Controller;
     using System.Collections.Generic;
+    using System.Linq;
 
-    public class Avatar<TController> : ControlledGameObject<TController>, IRigid where TController : IController
+    public class Avatar : ControlledGameObject, IRigid
     {
         public AvatarInventory Inventory { get; private set; }
 
         public Rectangle RigidBody => this.Body.Rectangle;
 
-        public List<Loot> InteractableLoots { get; private set; }
+        private List<GameObject> InteractableGameObjectsPrivate;
+        public List<GameObject> InteractableGameObjects => InteractableGameObjectsPrivate.ToList();
 
-        public Avatar(Texture2D texture, Rectangle body)
-            : base(texture, body)
+        public Avatar(Texture2D texture, Rectangle body, Controller controller)
+            : base(texture, body, controller)
         {
             this.Speed = GameConfig.GameObjectStandards.AvatarStandards.StandardAvatarSpeed;
-            this.Inventory = new AvatarInventory(this as Avatar<IController>);
-            this.InteractableLoots = new List<Loot>();
+            this.Inventory = new AvatarInventory(this);
+            this.InteractableGameObjectsPrivate = new List<GameObject>();
             this.DrawPriority = DrawPriority.High;
         }
 
-        public override void SuccessfulMovementPostActions()
+        public override void MovementPreActions()
         {
-            List<Loot> lootsToRemove = new List<Loot>();
-            foreach (var item in InteractableLoots)
+            List<GameObject> objectsToRemove = new List<GameObject>();
+            foreach (GameObject item in InteractableGameObjectsPrivate)
             {
-                if (!this.CollidesWith(item.CollisionRectangles))
+                if (item.GameWorld == null || !this.CollidesWith(item.CollisionRectangles))
                 {
-                    lootsToRemove.Add(item);
+                    objectsToRemove.Add(item);
                 }
             }
-            InteractableLoots.RemoveAll(x => lootsToRemove.Contains(x));
+            InteractableGameObjectsPrivate.RemoveAll(x => objectsToRemove.Contains(x));
+        }
+
+        public void AddInteractableGameObject(GameObject gameObject)
+        {
+            if (!InteractableGameObjectsPrivate.Contains(gameObject))
+                InteractableGameObjectsPrivate.Add(gameObject);
+        }
+
+        public void RemoveInteractableGameObject(GameObject gameObject)
+        {
+            if (InteractableGameObjectsPrivate.Contains(gameObject))
+                InteractableGameObjectsPrivate.RemoveAll(x => x.EntityId == gameObject.EntityId);
         }
     }
 }

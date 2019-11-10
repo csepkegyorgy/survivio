@@ -58,7 +58,7 @@
 
             public static Rectangle GetStandardBody<T>(T gameObject, int x = 0, int y = 0) where T : GameObject
             {
-                if (gameObject is Avatar<IController>)
+                if (gameObject is Avatar)
                 {
                     return AvatarStandards.GetStandardAvatarBody(x, y);
                 }

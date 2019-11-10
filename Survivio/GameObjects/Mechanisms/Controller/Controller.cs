@@ -3,7 +3,7 @@
     using Microsoft.Xna.Framework;
     using Survivio.GameObjects.Base;
 
-    public abstract class Controller : IController
+    public abstract class Controller
     {
         public GameObject ControlledObject { get; private set; }
 
