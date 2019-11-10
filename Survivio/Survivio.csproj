@@ -44,6 +44,7 @@
     <Compile Include="ContentAccessor.cs" />
     <Compile Include="Extensions\SpriteBatchExtensions.cs" />
     <Compile Include="GameConfig.cs" />
+    <Compile Include="GameObjects\Base\DrawMethod.cs" />
     <Compile Include="GameObjects\Base\DrawPriority.cs" />
     <Compile Include="GameObjects\Base\IIconed.cs" />
     <Compile Include="GameObjects\Item\Ammunitions\Blue762Ammunition.cs" />

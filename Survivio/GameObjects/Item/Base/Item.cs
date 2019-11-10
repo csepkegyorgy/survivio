@@ -1,17 +1,17 @@
 ﻿namespace Survivio.GameObjects.Item.Base
 {
-    using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
-    using Survivio.GameObjects.Base;
 
-    public class Item : GameObject, IIconed
+    public class Item
     {
-        public Texture2D IconTexture { get; private set; }
+        public Texture2D LootTexture { get; private set; }
 
-        public Item(Texture2D texture, Rectangle body, Texture2D iconTexture)
-            : base(texture, body)
+        public Texture2D Texture { get; private set; }
+
+        public Item(Texture2D texture, Texture2D lootTexture)
         {
-            this.IconTexture = iconTexture;
+            this.Texture = texture;
+            this.LootTexture = lootTexture;
         }
     }
 }

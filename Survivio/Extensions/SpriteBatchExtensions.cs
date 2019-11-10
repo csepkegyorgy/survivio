@@ -16,18 +16,22 @@
 
         public static void Draw(this GameObject gameObject, bool devBorder = false)
         {
-            Rectangle rectangle = gameObject.Body.Rectangle;
-            // Camera shift
-            // Camera shift
-            rectangle.Location = new Point(rectangle.Location.X + rectangle.Width / 2, rectangle.Location.Y + rectangle.Height / 2);
-            rectangle.Location += gameObject.GameWorld.VisibleArea.Location;
+            var drawMethod = gameObject.DrawMethod;
+            for (int i = 0; i < drawMethod.Textures.Count; i++)
+            {
+                Texture2D texture = drawMethod.Textures[i];
+                Rectangle rectangle = drawMethod.Rectangles[i];
 
-            Vector2 origin = new Vector2(gameObject.Texture.Width / 2, gameObject.Texture.Height / 2);
-            float rotationRadian = (-1) * (float)(gameObject.Rotation * (Math.PI / 180));
+                // Camera shift
+                rectangle.Location = new Point(rectangle.Location.X + rectangle.Width / 2, rectangle.Location.Y + rectangle.Height / 2);
 
-            rectangle = new Rectangle((int)(rectangle.X + CameraShift.X), (int)(rectangle.Y + CameraShift.Y), rectangle.Width, rectangle.Height);
-            MainSpriteBatch.Draw(gameObject.Texture, rectangle, null, Color.White, rotationRadian, origin, SpriteEffects.None, 0f);
-            gameObject.Body.Rectangle.DrawDevBorder();
+                Vector2 origin = new Vector2(texture.Width / 2, texture.Height / 2);
+                float rotationRadian = (-1) * (float)(gameObject.Rotation * (Math.PI / 180));
+
+                rectangle = new Rectangle((int)(rectangle.X + CameraShift.X), (int)(rectangle.Y + CameraShift.Y), rectangle.Width, rectangle.Height);
+                MainSpriteBatch.Draw(texture, rectangle, null, Color.White, rotationRadian, origin, SpriteEffects.None, 0f);
+                if (devBorder) gameObject.Body.Rectangle.DrawDevBorder();
+            }
         }
 
         public static void DrawDevBorder(this Rectangle area)

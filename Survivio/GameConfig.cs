@@ -3,6 +3,7 @@
     using Microsoft.Xna.Framework;
     using Survivio.GameObjects;
     using Survivio.GameObjects.Base;
+    using Survivio.GameObjects.Item.Base;
     using Survivio.GameObjects.Mechanisms.Controller;
 
     public static class GameConfig
@@ -29,6 +30,52 @@
                 public static Rectangle GetStandardAvatarBody(int x = 0, int y = 0)
                 {
                     return new Rectangle(x, y, AvatarStandards.StandardBodyWidth, AvatarStandards.StandardBodyHeight);
+                }
+            }
+
+            public static class LootStandards
+            {
+                public const int StandardLootWidthWeaponCircle = 80;
+                public const int StandardLootHeightWeaponCircle = 80;
+
+                public const int StandardLootWidthWeapon = 60;
+                public const int StandardLootHeightWeapon = 60;
+
+                public const int StandardLootWidthAmmunition = 40;
+                public const int StandardLootHeightAmmunition = 40;
+
+                public const int StandardLootWidth = AvatarStandards.StandardBodyWidth;
+                public const int StandardLootHeight = AvatarStandards.StandardBodyHeight;
+
+                public static Rectangle GetStandardLootBodyForWeaponCircle(int x = 0, int y = 0)
+                {
+                    return new Rectangle(x, y, LootStandards.StandardLootWidthWeaponCircle, LootStandards.StandardLootHeightWeaponCircle);
+                }
+
+                public static Rectangle GetStandardLootBodyForWeapon(int x = 0, int y = 0)
+                {
+                    return new Rectangle(x, y, LootStandards.StandardLootWidthWeapon, LootStandards.StandardLootHeightWeapon);
+                }
+
+                public static Rectangle GetStandardLootBodyForAmmunition(int x = 0, int y = 0)
+                {
+                    return new Rectangle(x, y, LootStandards.StandardLootWidthAmmunition, LootStandards.StandardLootHeightAmmunition);
+                }
+
+                public static Rectangle GetStandardLootBody(Item item = null, int x = 0, int y = 0)
+                {
+                    if (item != null)
+                    {
+                        if (item is AmmunitionItem)
+                        {
+                            return GetStandardLootBodyForAmmunition(x, y);
+                        }
+                        if (item is GunWeaponItem || item is MeleeWeaponItem)
+                        {
+                            return GetStandardLootBodyForWeaponCircle(x, y);
+                        }
+                    }
+                    return new Rectangle(x, y, LootStandards.StandardLootWidth, LootStandards.StandardLootHeight);
                 }
             }
 

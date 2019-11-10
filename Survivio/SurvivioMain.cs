@@ -9,6 +9,7 @@
     using Survivio.GameObjects.Global;
     using Survivio.GameObjects.Item;
     using Survivio.GameObjects.Item.Ammunitions;
+    using Survivio.GameObjects.Item.Guns;
     using Survivio.GameObjects.Mechanisms.Camera;
     using Survivio.GameObjects.Mechanisms.Collision;
     using Survivio.GameObjects.Mechanisms.Controller;
@@ -22,6 +23,7 @@
         Avatar player;
         Obstacle box;
         Loot blueAmmoLoot;
+        Loot ot38Loot;
 
         Point mousePosition;
         Point mouseWorldPosition;
@@ -73,8 +75,13 @@
             gameWorld.AddNewGameObject(blueAmmoLoot = new Loot(
                 new Blue762Ammunition(
                     60
-                    )));
-            blueAmmoLoot.Move(500, 500);
+                    ), 500, 500
+                ));
+
+            gameWorld.AddNewGameObject(ot38Loot = new Loot(
+                new OT38Gun(),
+                600, 600
+                ));
 
             camera = new Camera(player);
             SpriteBatchExtensions.Camera = camera;
@@ -107,7 +114,7 @@
         {
             if (gameTime.TotalGameTime.TotalMilliseconds + GameConfig.Delta >= nextDraw)
             {
-                GraphicsDevice.Clear(Color.LawnGreen);
+                GraphicsDevice.Clear(new Color(128, 174, 72));
                 spriteBatch.Begin();
 
 

@@ -23,6 +23,8 @@
 
         public RectangleD Body { get; }
 
+        public virtual DrawMethod DrawMethod => new DrawMethod(this.Texture, this.Body.Rectangle);
+
         public GameWorld GameWorld { get; set; }
 
         public double Speed { get; set; }
@@ -83,11 +85,20 @@
             }
         }
 
+        public bool CollidesWith(Point point)
+        {
+            if (this.CollisionRectangles.Any(x => x.Contains(point)))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool CollidesWith(List<Rectangle> rectangles)
         {
             foreach (Rectangle item in rectangles)
             {
-                if (this.Body.Rectangle.Intersects(item))
+                if (this.CollisionRectangles.Any(x => x.Intersects(item)))
                 {
                     return true;
                 }
@@ -97,7 +108,7 @@
 
         public bool CollidesWith(Rectangle rectangle)
         {
-            if (this.Body.Rectangle.Intersects(rectangle))
+            if (this.CollisionRectangles.Any(x => x.Intersects(rectangle)))
             {
                 return true;
             }

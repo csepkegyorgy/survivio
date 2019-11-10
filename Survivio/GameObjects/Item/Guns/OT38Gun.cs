@@ -8,6 +8,7 @@
             : base(ContentAccessor.GunShort, GameConfig.GameObjectStandards.WeaponStandards.GetStandardShortGunBody(), ContentAccessor.WeaponIconOT38)
         {
             this.InitializeGun(
+                Inventory.AmmunitionType.Blue762mm,
                 26,
                 2,
                 0.4,

@@ -58,11 +58,11 @@
             gameObject.UpdateCollisionRealms();
             this.GameObjectsPrivate.Add(gameObject);
 
-            if (gameObject is Loot && (gameObject as Loot).Item != null)
-            {
-                (gameObject as Loot).Item.GameWorld = this;
-                this.GameObjectsPrivate.Add((gameObject as Loot).Item);
-            }
+            //if (gameObject is Loot && (gameObject as Loot).Item != null)
+            //{
+            //    (gameObject as Loot).Item.GameWorld = this;
+            //    this.GameObjectsPrivate.Add((gameObject as Loot).Item);
+            //}
         }
 
         public void RemoveGameObject(GameObject gameObject)

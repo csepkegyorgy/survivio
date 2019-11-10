@@ -1,10 +1,10 @@
 ﻿namespace Survivio.GameObjects.Item
 {
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
     using Survivio.GameObjects.Base;
     using Survivio.GameObjects.Item.Ammunitions;
     using Survivio.GameObjects.Item.Base;
-    using Survivio.GameObjects.Mechanisms.Controller;
     using System;
     using System.Collections.Generic;
 
@@ -12,10 +12,45 @@
     {
         public Item Item { get; set; }
 
-        public Loot(Item item)
-            : base(item.Texture, item.Body.Rectangle)
+        public override DrawMethod DrawMethod => GetDrawMethod();
+
+        private DrawMethod GetDrawMethod()
+        {
+            if (Item != null)
+            {
+                if (Item is GunWeaponItem || Item is MeleeWeaponItem)
+                {
+                    List<Texture2D> textures = new List<Texture2D>();
+                    List<Rectangle> rectangles = new List<Rectangle>();
+
+                    Rectangle lootCircleBody = this.Body.Rectangle;
+                    textures.Add(ContentAccessor.LootCircleOuter01);
+                    rectangles.Add(lootCircleBody);
+
+                    Rectangle weaponBody = GameConfig.GameObjectStandards.LootStandards.GetStandardLootBodyForWeapon();
+                    textures.Add(Item.LootTexture);
+                    rectangles.Add(new Rectangle(
+                        (lootCircleBody.X + (lootCircleBody.Width / 2)) - (weaponBody.Width / 2),
+                        (lootCircleBody.Y + (lootCircleBody.Height / 2)) - (weaponBody.Height / 2),
+                        weaponBody.Width,
+                        weaponBody.Height));
+
+                    return new DrawMethod(textures, rectangles);
+                }
+
+                return base.DrawMethod;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public Loot(Item item, int x = 0, int y = 0)
+            : base(item.LootTexture, GameConfig.GameObjectStandards.LootStandards.GetStandardLootBody(item, x, y))
         {
             this.Item = item;
+            this.DrawPriority = DrawPriority.Medium;
         }
 
         public void Interact(Avatar avatar)
@@ -46,6 +81,9 @@
                 {
                     avatar.Inventory.EquipToSecondaryHandSlot(Item as GunWeaponItem);
                 }
+                Item = null;
+                this.Remove();
+
             }
             else if (Item is MeleeWeaponItem)
             {
@@ -60,14 +98,11 @@
                 if (Item is Blue762Ammunition)
                 {
                     int remainder = avatar.Inventory.AmmunitionInventoryBlue.AddAmount((Item as Blue762Ammunition).Amount);
-                    Item.Remove();
                     Item = null;
 
                     if (remainder != 0)
                     {
-                        var newAmmo = new Blue762Ammunition(remainder);
-                        avatar.GameWorld.AddNewGameObject(newAmmo);
-                        newAmmo.Move(avatar.Body.Center);
+                        Blue762Ammunition newAmmo = new Blue762Ammunition(remainder);
                         Item = newAmmo;
                     }
                     else
@@ -76,50 +111,23 @@
                     }
                 }
             }
-            // check if avatar has enough space to pick the item up
-            // y: add item to avatar's inventory
-            // if item was for eg bandage ammo or something that has a count number, then check if there is a remainder
-            // y: reposition loot instance with the remainder
-        }
-
-        public override List<Rectangle> CollisionRectangles
-        {
-            get
-            {
-                Rectangle itemBody = Item.Body.Rectangle;
-                if (Item is AmmunitionItem)
-                {
-                    Rectangle rectangle = new Rectangle(itemBody.Location, itemBody.Size);
-                    rectangle.Inflate((float)itemBody.Width, (int)itemBody.Height);
-                    return new List<Rectangle>()
-                    {
-                        rectangle
-                    };
-                }
-                else
-                {
-                    return base.CollisionRectangles;
-                }
-            }
         }
 
         public override bool Collide(GameObject gameObject)
         {
             if (gameObject is Avatar)
             {
-                var avatar = gameObject as Avatar;
-                if (!avatar.InteractableGameObjects.Contains(this))
+                if (this.CollidesWith(gameObject.Body.Center))
                 {
-                    avatar.AddInteractableGameObject(this);
+                    var avatar = gameObject as Avatar;
+                    if (!avatar.InteractableGameObjects.Contains(this))
+                    {
+                        avatar.AddInteractableGameObject(this);
+                    }
                 }
             }
 
             return false;
-        }
-
-        public override void MovementPostActions()
-        {
-            this.Item.Move(this.Body.Rectangle.Location);
         }
     }
 }

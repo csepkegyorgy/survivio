@@ -6,7 +6,7 @@
     public abstract class MeleeWeaponItem : Item
     {
         public MeleeWeaponItem(Texture2D texture, Rectangle body, Texture2D iconTexture)
-            : base(texture, body, iconTexture)
+            : base(texture, iconTexture)
         {
         }
     }
