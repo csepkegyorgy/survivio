@@ -11,17 +11,5 @@
             : base(texture, body, iconTexture)
         {
         }
-
-        public void SetAmount(int amount)
-        {
-            if (Amount + amount > GameConfig.GameObjectStandards.AmmunitionStandards.StandardMaxAmmunitionAmountInOneLootInstance)
-            {
-                Amount = GameConfig.GameObjectStandards.AmmunitionStandards.StandardMaxAmmunitionAmountInOneLootInstance;
-            }
-            else
-            {
-                Amount += amount;
-            }
-        }
     }
 }

@@ -172,11 +172,14 @@
             }
             else
             {
+                MovementPostActions();
                 UpdateCollisionRealms();
             }
         }
 
         public virtual void MovementPreActions() { }
+
+        public virtual void MovementPostActions() { }
 
         public void Remove()
         {

@@ -1,6 +1,5 @@
 ﻿namespace Survivio.GameObjects.Item.Ammunitions
 {
-    using Survivio.GameObjects.Base;
     using Survivio.GameObjects.Item.Base;
 
     public class Blue762Ammunition : AmmunitionItem

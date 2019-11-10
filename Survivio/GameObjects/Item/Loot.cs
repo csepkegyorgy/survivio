@@ -116,5 +116,10 @@
 
             return false;
         }
+
+        public override void MovementPostActions()
+        {
+            this.Item.Move(this.Body.Rectangle.Location);
+        }
     }
 }
